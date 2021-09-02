@@ -75,20 +75,25 @@ public class SpaceshipPhysScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        OnHit(collider);
+    }
 
+
+    //Other functions
+
+    //On hit with other object
+    private void OnHit(Collider2D collider)
+    {
         if (collider.tag.Contains("asteroid"))
         {
             var a = Instantiate(particlePrefab);
             a.transform.position = transform.position;
             Destroy(a, 0.6f);
-            managerScript.gPAudioSource.PlaySound(GPAudioScript.Audios.BOOM);
             Destroy(gameObject);
-        
         }
+
     }
 
-
-    //Other functions
     void ProcessInput()
     {
         //Set forward flags

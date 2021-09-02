@@ -18,3 +18,5 @@ MonoBehaviour:
     type: 3}
   largeAsteroid: {fileID: 5772464664303624343, guid: eed44ce708bd0764188348bdecf75f68,
     type: 3}
+  particleEffect: {fileID: 3953302725377390000, guid: 52b8968fb9d7372428bbf1e648aeb127,
+    type: 3}

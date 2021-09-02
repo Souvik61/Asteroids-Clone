@@ -43,9 +43,12 @@ public class AsteroidScript : MonoBehaviour
     //Asteroid on hit
     private void OnHit(Collider2D collider)
     {
+        //Play hit sound
+        if(!collider.CompareTag("ast_dest"))
+        audioSource.PlaySound(GPAudioScript.Audios.BOOM);
+
         if (collider.gameObject.CompareTag("bullet"))
         {
-            audioSource.PlaySound(GPAudioScript.Audios.BOOM);
             var particle = Instantiate(asteroidTypes.particleEffect);
             particle.transform.position = collider.gameObject.transform.position;
             Destroy(particle, 1.0f);

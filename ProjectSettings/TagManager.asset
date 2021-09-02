@@ -10,6 +10,7 @@ TagManager:
   - large_asteroid
   - bullet
   - aud_src
+  - ast_dest
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - 
   - spaceship
   - teleport_colliders
-  - 
+  - asteroids
   - 
   - 
   - 
