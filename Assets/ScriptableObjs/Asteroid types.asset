@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db3b235cdd8f00b4f8fc59c5742b3204, type: 3}
+  m_Name: Asteroid types
+  m_EditorClassIdentifier: 
+  smallAsteroid: {fileID: 2946040109148031807, guid: efebfc5a04836064eb137b3b96876317,
+    type: 3}
+  mediumAsteroid: {fileID: 6624307467857694855, guid: 433de36cb1c3bc344bec0c2d53b702b2,
+    type: 3}
+  largeAsteroid: {fileID: 5772464664303624343, guid: eed44ce708bd0764188348bdecf75f68,
+    type: 3}

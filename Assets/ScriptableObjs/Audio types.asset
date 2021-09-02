@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b5de71cf2f2ca540b284e6ec6ef1dd5, type: 3}
+  m_Name: Audio types
+  m_EditorClassIdentifier: 
+  laserSound: {fileID: 8300000, guid: 68e002bb93c11be4f84c54d68ed6c0d7, type: 3}
+  boomSound: {fileID: 8300000, guid: 1094b1d427edbd940b51c22f1f82601b, type: 3}
