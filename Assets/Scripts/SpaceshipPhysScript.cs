@@ -7,6 +7,7 @@ public class SpaceshipPhysScript : MonoBehaviour
     public float forceMultiplier = 0;
     public float rotationSpeed = 0;
     public float velocityClamp = 0;
+    public float currRotation = 0;//Set rotation from outside
 
     public float bulletShootDelay = 0;
 
@@ -18,7 +19,7 @@ public class SpaceshipPhysScript : MonoBehaviour
     float x = 0;
     float goForward = 0;
     float zRotation = 0;
-    float currRotation = 0;
+    
 
     //gun trigger delay vars
     bool readyToShoot = true;
@@ -70,7 +71,6 @@ public class SpaceshipPhysScript : MonoBehaviour
         }
         //rotate accordingly
         selfBody.MoveRotation(currRotation);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -90,6 +90,8 @@ public class SpaceshipPhysScript : MonoBehaviour
             a.transform.position = transform.position;
             Destroy(a, 0.6f);
             Destroy(gameObject);
+
+            AllEventsScript.OnShipDestroyed?.Invoke();
         }
 
     }
@@ -126,6 +128,11 @@ public class SpaceshipPhysScript : MonoBehaviour
         moverScript.AddBullet(Instantiate(bulletPrefab, leftGun.position, leftGun.rotation));
         moverScript.AddBullet(Instantiate(bulletPrefab, rightGun.position, rightGun.rotation));
         
+    }
+
+    void OnShipDestroyed()
+    { 
+    
     }
 
     //This function delays bullet shooting for set ammount of seconds.
