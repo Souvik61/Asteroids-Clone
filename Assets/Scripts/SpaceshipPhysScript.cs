@@ -19,19 +19,24 @@ public class SpaceshipPhysScript : MonoBehaviour
     float x = 0;
     float goForward = 0;
     float zRotation = 0;
-    
+
+    //Animation
+    bool isNoHarm;
 
     //gun trigger delay vars
     bool readyToShoot = true;
     float roundTimer = 0.0f;
+    //
 
     private AudioSource audioSource;
     private EdgeCollider2D selfCollider;
+    private SpriteRenderer spRenderer;
     private Rigidbody2D selfBody;
     private Transform leftGun, rightGun;
 
     private void Awake()
     {
+        spRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         selfCollider = GetComponent<EdgeCollider2D>();
         selfBody = GetComponent<Rigidbody2D>();
@@ -44,7 +49,9 @@ public class SpaceshipPhysScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        //Blink space ship and take no damage until two seconds after spawn.
+        StartNoHarm();
+        Invoke(nameof(StopNoHarm), 5.0f);
     }
 
     // Update is called once per frame
@@ -89,9 +96,9 @@ public class SpaceshipPhysScript : MonoBehaviour
             var a = Instantiate(particlePrefab);
             a.transform.position = transform.position;
             Destroy(a, 0.6f);
-            Destroy(gameObject);
-
-            AllEventsScript.OnShipDestroyed?.Invoke();
+            Destroy(this.gameObject);
+            //Pass in z rotation
+            AllEventsScript.OnShipDestroyed?.Invoke(transform.rotation.eulerAngles.z);
         }
 
     }
@@ -130,17 +137,39 @@ public class SpaceshipPhysScript : MonoBehaviour
         
     }
 
-    void OnShipDestroyed()
-    { 
-    
-    }
-
     //This function delays bullet shooting for set ammount of seconds.
     IEnumerator ShootDelayFunc()
     {
         readyToShoot = false;
         yield return new WaitForSeconds(bulletShootDelay);
         readyToShoot = true;
+    }
+    //Beeping animation after spawn
+    IEnumerator BeepShip()
+    {
+        for (;;)
+        {
+            spRenderer.enabled = false;
+            yield return new WaitForSeconds(0.25f);
+            spRenderer.enabled = true;
+            yield return new WaitForSeconds(0.25f);
+            if (!isNoHarm)
+            { break; }
+        }
+    }
+
+    //start NoHarm
+    void StartNoHarm()
+    {
+        isNoHarm = true;
+        selfCollider.enabled = false;
+        StartCoroutine(nameof(BeepShip));
+    }
+    //stop NoHarm
+    void StopNoHarm()
+    {
+        isNoHarm = false;//this also stops beeping coroutine.
+        selfCollider.enabled = true;
     }
 
 }

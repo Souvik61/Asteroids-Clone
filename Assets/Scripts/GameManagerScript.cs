@@ -10,6 +10,9 @@ public class GameManagerScript : MonoBehaviour
 
     public GameObject spaceShipPrefab;
 
+    //Internal vars
+    enum PlayerState { ALIVE, DEAD } ;
+    PlayerState playerState;
     uint playerLives = 0;
 
     private void OnEnable()
@@ -26,6 +29,7 @@ public class GameManagerScript : MonoBehaviour
     void Start()
     {
         playerLives = 4;
+        playerState = PlayerState.ALIVE;
     }
 
     // Update is called once per frame
@@ -35,12 +39,12 @@ public class GameManagerScript : MonoBehaviour
         {
             if (playerLives != 0)
             {
-                ResetShip();
+                //ResetShip();
             }
         }
     }
 
-    private void ResetShip()
+    private void ResetShip(float prevRotation)
     {
         float rotation = 0;
         if (currentShip != null)
@@ -52,15 +56,29 @@ public class GameManagerScript : MonoBehaviour
         currentShip = Instantiate(spaceShipPrefab);
         currentShip.GetComponent<SpaceshipPhysScript>().moverScript = bulletMover;
         //Set rotation of ship to previous rotation
-        currentShip.GetComponent<SpaceshipPhysScript>().currRotation = rotation;
-        currentShip.transform.Rotate(Vector3.forward, rotation);
+        currentShip.GetComponent<SpaceshipPhysScript>().currRotation = prevRotation;
+        currentShip.transform.Rotate(Vector3.forward, prevRotation);
+        playerState = PlayerState.ALIVE;
+    }
+
+    IEnumerator StartResetShip(float prevRotation)
+    {
+        yield return new WaitForSeconds(2);
+        ResetShip(prevRotation);
     }
 
     //Events
-    void OnPlayerShipDestroyed()
+    void OnPlayerShipDestroyed(float prevShipRotation)
     {
         playerLives--;
         livesBarScript.SetLives(playerLives);
+        //TryResetShip();
+        if (playerLives != 0)
+        {
+            StartCoroutine(nameof(StartResetShip), prevShipRotation);
+        }
+        playerState = PlayerState.DEAD;
+
 
     }
 }

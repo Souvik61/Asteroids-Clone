@@ -48,3 +48,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: asteroids
+    uniqueID: 47375821
+    locked: 0
+  - name: spaceship
+    uniqueID: 2334860315
+    locked: 0

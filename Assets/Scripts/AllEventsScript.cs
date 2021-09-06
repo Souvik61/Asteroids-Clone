@@ -6,8 +6,9 @@ using UnityEngine.Tilemaps;
 public class AllEventsScript : MonoBehaviour
 {
     public delegate void BlankFunc();
-
+    //function with a float as parameter
+    public delegate void Func1(float a);
     //On ship destroyed
-    public static BlankFunc OnShipDestroyed;
+    public static Func1 OnShipDestroyed;
 
 }
