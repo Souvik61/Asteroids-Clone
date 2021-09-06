@@ -26,11 +26,13 @@ public class AsteroidSpawnScript : MonoBehaviour
             Vector2 spawnDirOnUnitCir = Random.insideUnitCircle.normalized;
             Vector3 spawnPoint = spawnDirOnUnitCir * spawnDistance;
 
+            //Draw ray for debugging
             Debug.DrawRay(transform.position, spawnPoint, Color.red,0.5f);
 
             //set the asteroid on spawn point 
             var aster = CreateRandomAsteroid();
             aster.transform.position = spawnPoint;
+            aster.transform.Rotate(Vector3.forward, Random.Range(0, 360));//rotate random angle
 
             //send it to center of screen with some variance
 

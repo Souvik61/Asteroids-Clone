@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 2009849556843003906}
   - component: {fileID: 5493720502016130235}
   - component: {fileID: 8563614055433586972}
+  - component: {fileID: 50882121940983002}
   - component: {fileID: 3067745105449733024}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: asteroid_small
   m_TagString: small_asteroid
   m_Icon: {fileID: 0}
@@ -28,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2946040109148031807}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.064, y: 0.717, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -67,8 +68,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 47375821
+  m_SortingLayer: 1
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: b5f4c24cdc3ccb04584a97b614661cb9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -118,6 +119,27 @@ PolygonCollider2D:
       - {x: 0.14999999, y: 0.39999998}
       - {x: -0.03, y: 0.35999998}
       - {x: -0.03, y: 0.26999998}
+--- !u!50 &50882121940983002
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2946040109148031807}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!114 &3067745105449733024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,7 +154,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   moveDirection: {x: 0, y: 0}
-  particleEffect: {fileID: 3953302725377390000, guid: 52b8968fb9d7372428bbf1e648aeb127,
-    type: 3}
   audioSource: {fileID: 0}
   asteroidTypes: {fileID: 11400000, guid: e22816663fcb22848b4b9b1efe3731ab, type: 2}

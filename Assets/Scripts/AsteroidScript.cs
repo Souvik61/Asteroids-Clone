@@ -12,6 +12,7 @@ public class AsteroidScript : MonoBehaviour
     //Asteroid prefab copies 
     public AsteroidTypes asteroidTypes;
 
+    private bool isHit = false;
     private Rigidbody2D rigidbody2d;
 
     private void Awake()
@@ -37,62 +38,73 @@ public class AsteroidScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        if(!collider.CompareTag("ast_dest"))
         OnHit(collider);
     }
 
     //Asteroid on hit
     private void OnHit(Collider2D collider)
     {
-        if (collider.gameObject.CompareTag("bullet"))
+        if (!isHit)
         {
+            //Play hit sound
             audioSource.PlaySound(GPAudioScript.Audios.BOOM);
-            var particle = Instantiate(asteroidTypes.particleEffect);
-            particle.transform.position = collider.gameObject.transform.position;
-            Destroy(particle, 1.0f);
-            Destroy(collider.gameObject);
+
+            if (collider.gameObject.CompareTag("bullet"))
+            {
+                var particle = Instantiate(asteroidTypes.particleEffect);
+                particle.transform.position = collider.gameObject.transform.position;
+                Destroy(particle, 1.0f);
+                Destroy(collider.gameObject);
+            }
+
+            //If it is a large asteroid spawn two medium asteroids and send them in same dir.
+            if (gameObject.CompareTag("large_asteroid"))
+            {
+                //Create two medium asteroids
+                var astA = Instantiate(asteroidTypes.mediumAsteroid);
+                var astB = Instantiate(asteroidTypes.mediumAsteroid);
+                //set their pos to this.pos
+                astA.transform.position = astB.transform.position = transform.position;
+                //rotate to some variance
+                astA.transform.Rotate(Vector3.forward, Random.Range(0, 360));
+                astB.transform.Rotate(Vector3.forward, Random.Range(0, 360));
+                //Set their move direction
+                var vecA = Quaternion.AngleAxis(-30, Vector3.forward) * this.moveDirection;
+                var vecB = Quaternion.AngleAxis(+30, Vector3.forward) * this.moveDirection;
+
+                astA.GetComponent<AsteroidScript>().moveDirection = vecA;
+                astB.GetComponent<AsteroidScript>().moveDirection = vecB;
+
+            }
+            else if (gameObject.CompareTag("medium_asteroid"))
+            {
+                var astA = Instantiate(asteroidTypes.smallAsteroid);
+                var astB = Instantiate(asteroidTypes.smallAsteroid);
+                //Set position and rotation
+                astA.transform.position = astB.transform.position = transform.position;
+                astA.transform.Rotate(Vector3.forward, Random.Range(0, 360));
+                astB.transform.Rotate(Vector3.forward, Random.Range(0, 360));
+                //Set their move direction
+                var vecA = Quaternion.AngleAxis(-30, Vector3.forward) * this.moveDirection;
+                var vecB = Quaternion.AngleAxis(+30, Vector3.forward) * this.moveDirection;
+
+                astA.GetComponent<AsteroidScript>().moveDirection = vecA;
+                astB.GetComponent<AsteroidScript>().moveDirection = vecB;
+            }
+            else if (gameObject.CompareTag("small_asteroid"))
+            {
+                //Do nothing
+            }
+
+            var p = Instantiate(asteroidTypes.particleEffect1);
+            p.transform.position = transform.position;
+            Destroy(p, 3.0f);
+
+            Destroy(this.gameObject);
+            
+            isHit = true;
         }
-
-        //If it is a large asteroid spawn two medium asteroids and send them in same dir.
-        if (gameObject.CompareTag("large_asteroid"))
-        {
-            //Create two medium asteroids
-            var astA = Instantiate(asteroidTypes.mediumAsteroid);
-            var astB = Instantiate(asteroidTypes.mediumAsteroid);
-            //set their pos to this.pos
-            astA.transform.position = astB.transform.position = transform.position;
-            //rotate to some variance
-            astA.transform.Rotate(Vector3.forward, Random.Range(0, 360));
-            astB.transform.Rotate(Vector3.forward, Random.Range(0, 360));
-            //Set their move direction
-            var vecA = Quaternion.AngleAxis(-30, Vector3.forward) * this.moveDirection;
-            var vecB = Quaternion.AngleAxis(+30, Vector3.forward) * this.moveDirection;
- 
-            astA.GetComponent<AsteroidScript>().moveDirection = vecA;
-            astB.GetComponent<AsteroidScript>().moveDirection = vecB;
-
-        }
-        else if (gameObject.CompareTag("medium_asteroid"))
-        {
-            var astA = Instantiate(asteroidTypes.smallAsteroid);
-            var astB = Instantiate(asteroidTypes.smallAsteroid);
-            //Set position and rotation
-            astA.transform.position = astB.transform.position = transform.position;
-            astA.transform.Rotate(Vector3.forward, Random.Range(0, 360));
-            astB.transform.Rotate(Vector3.forward, Random.Range(0, 360));
-            //Set their move direction
-            var vecA = Quaternion.AngleAxis(-30, Vector3.forward) * this.moveDirection;
-            var vecB = Quaternion.AngleAxis(+30, Vector3.forward) * this.moveDirection;
-
-            astA.GetComponent<AsteroidScript>().moveDirection = vecA;
-            astB.GetComponent<AsteroidScript>().moveDirection = vecB;
-        }
-        else if (gameObject.CompareTag("small_asteroid"))
-        {
-            //Do nothing
-        }
-
-        Destroy(this.gameObject);
-
     }
 
 

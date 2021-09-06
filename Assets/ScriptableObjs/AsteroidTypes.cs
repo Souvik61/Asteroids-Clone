@@ -11,4 +11,5 @@ public class AsteroidTypes : ScriptableObject
 
     //Particle effect
     public GameObject particleEffect;
+    public GameObject particleEffect1;
 }
