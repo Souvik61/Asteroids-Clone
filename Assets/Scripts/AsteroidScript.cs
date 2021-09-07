@@ -102,7 +102,10 @@ public class AsteroidScript : MonoBehaviour
             Destroy(p, 3.0f);
 
             Destroy(this.gameObject);
-            
+
+            //Invoke OnAsteroidDestroy event 
+            AllEventsScript.OnAsteroidDestroy?.Invoke(tag);
+
             isHit = true;
         }
     }
