@@ -45,6 +45,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: bg_image
+    uniqueID: 223599025
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
@@ -53,4 +56,7 @@ TagManager:
     locked: 0
   - name: spaceship
     uniqueID: 2334860315
+    locked: 0
+  - name: particles
+    uniqueID: 2653219647
     locked: 0

@@ -130,7 +130,10 @@ public class SpaceshipPhysScript : MonoBehaviour
     {
         //Set forward flags
         if (Input.GetKey(KeyCode.W)) { goForward = 1; }
-        else if (Input.GetKey(KeyCode.S)) { goForward = -1; }
+        else if (Input.GetKey(KeyCode.S)) 
+        { 
+            //goForward = -1; 
+        }
         else { goForward = 0; }
 
         //Rotation

@@ -5,7 +5,7 @@ public class ScoreManagerScript : MonoBehaviour
 {
     public TMP_Text scoreText;
     private uint playerScore;
-    private uint PlayerScore
+    public uint PlayerScore
     {
         get
         {
