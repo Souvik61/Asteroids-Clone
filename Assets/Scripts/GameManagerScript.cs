@@ -12,6 +12,7 @@ public class GameManagerScript : MonoBehaviour
     public UILivesBarScript livesBarScript;
     public GameObject gameOverText;
     public TMP_Text scoreText;
+    public StarScrollerScript starScroller;
 
     public GameObject spaceShipPrefab;
 

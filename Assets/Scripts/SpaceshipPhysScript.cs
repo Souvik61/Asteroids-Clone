@@ -13,6 +13,7 @@ public class SpaceshipPhysScript : MonoBehaviour
 
     public GameManagerScript managerScript;
     public BulletMoverScript moverScript;
+    public StarScrollerScript starScroller;
     public GameObject bulletPrefab;
     public GameObject particlePrefab;
     public AudioClip laserShootClip;
@@ -49,6 +50,11 @@ public class SpaceshipPhysScript : MonoBehaviour
         rightGun = transform.Find("RightMissile");
         leftParticle = transform.Find("LeftBooster").GetComponent<ParticleSystem>();
         rightParticle = transform.Find("RightBooster").GetComponent<ParticleSystem>();
+
+        //find game manager
+        managerScript = GameObject.FindGameObjectWithTag("manager").GetComponent<GameManagerScript>();
+        starScroller = managerScript.starScroller;
+
     }
 
     // Start is called before the first frame update
@@ -86,6 +92,8 @@ public class SpaceshipPhysScript : MonoBehaviour
 
         //updates two boosters accordingly
         ProcessParticleUpdate();
+
+        ScrollStars();
 
     }
 
@@ -180,6 +188,14 @@ public class SpaceshipPhysScript : MonoBehaviour
                 a.loop = false;
             }
         }
+    }
+
+    void ScrollStars()
+    {
+        Vector2 a = selfBody.velocity;
+
+        starScroller.xSpeed = a.x * 0.008f;
+        starScroller.ySpeed = a.y * 0.008f;
     }
 
     void TryShootProjectile()

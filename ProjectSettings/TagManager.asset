@@ -11,6 +11,7 @@ TagManager:
   - bullet
   - aud_src
   - ast_dest
+  - manager
   layers:
   - Default
   - TransparentFX
