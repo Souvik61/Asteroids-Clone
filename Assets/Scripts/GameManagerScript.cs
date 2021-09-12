@@ -49,6 +49,7 @@ public class GameManagerScript : MonoBehaviour
             //pop scene
             SceneManager.LoadSceneAsync(0);
         }
+        
     }
 
     private void ResetShip(float prevRotation)
