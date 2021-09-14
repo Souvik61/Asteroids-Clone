@@ -13,8 +13,12 @@ public class SpaceshipPhysScript : MonoBehaviour
 
     public GameManagerScript managerScript;
     public BulletMoverScript moverScript;
+    public StarScrollerScript starScroller;
     public GameObject bulletPrefab;
     public GameObject particlePrefab;
+    public AudioClip laserShootClip;
+    public AudioClip boostClip;
+    public AudioSource boostAudioSource;
     //Internal vars
     float x = 0;
     float goForward = 0;
@@ -29,20 +33,27 @@ public class SpaceshipPhysScript : MonoBehaviour
     //
 
     private AudioSource audioSource;
-    private EdgeCollider2D selfCollider;
+    private Collider2D selfCollider;
     private SpriteRenderer spRenderer;
     private Rigidbody2D selfBody;
     private Transform leftGun, rightGun;
+    private ParticleSystem rightParticle, leftParticle;
 
     private void Awake()
     {
         spRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        selfCollider = GetComponent<EdgeCollider2D>();
+        selfCollider = GetComponent<Collider2D>();
         selfBody = GetComponent<Rigidbody2D>();
 
         leftGun = transform.Find("LeftMissile");
         rightGun = transform.Find("RightMissile");
+        leftParticle = transform.Find("LeftBooster").GetComponent<ParticleSystem>();
+        rightParticle = transform.Find("RightBooster").GetComponent<ParticleSystem>();
+
+        //find game manager
+        managerScript = GameObject.FindGameObjectWithTag("manager").GetComponent<GameManagerScript>();
+        starScroller = managerScript.starScroller;
 
     }
 
@@ -63,6 +74,26 @@ public class SpaceshipPhysScript : MonoBehaviour
         {
             TryShootProjectile();
         }
+
+        //If going forward play boost sound else stop it
+        if (goForward == 1)
+        {
+            if (!boostAudioSource.isPlaying)
+            {
+                boostAudioSource.Play();
+            }
+        }
+        else {
+            if (boostAudioSource.isPlaying)
+            {
+                boostAudioSource.Stop();
+            }
+        }
+
+        //updates two boosters accordingly
+        ProcessParticleUpdate();
+
+        ScrollStars();
 
     }
 
@@ -107,7 +138,10 @@ public class SpaceshipPhysScript : MonoBehaviour
     {
         //Set forward flags
         if (Input.GetKey(KeyCode.W)) { goForward = 1; }
-        else if (Input.GetKey(KeyCode.S)) { goForward = -1; }
+        else if (Input.GetKey(KeyCode.S)) 
+        { 
+            //goForward = -1; 
+        }
         else { goForward = 0; }
 
         //Rotation
@@ -117,6 +151,51 @@ public class SpaceshipPhysScript : MonoBehaviour
 
         currRotation += zRotation * Time.deltaTime * rotationSpeed;
 
+    }
+
+    void ProcessParticleUpdate()
+    {
+        //If going forward play boost effects else stop it
+        if (goForward == 1)
+        {
+            //enable left particle
+            if (!leftParticle.isPlaying)
+            {
+                leftParticle.Play();
+                var a = leftParticle.main;
+                a.loop = true;
+            }
+            //enable right particle
+            if (!rightParticle.isPlaying)
+            {
+                rightParticle.Play();
+                var a = rightParticle.main;
+                a.loop = true;
+            }
+        }
+        else
+        {
+            //disable left particle
+            if (leftParticle.isPlaying)
+            {
+                var a = leftParticle.main;
+                a.loop = false;
+            }
+            //disable right particle
+            if (rightParticle.isPlaying)
+            {
+                var a = rightParticle.main;
+                a.loop = false;
+            }
+        }
+    }
+
+    void ScrollStars()
+    {
+        Vector2 a = selfBody.velocity;
+
+        starScroller.xSpeed = a.x * 0.008f;
+        starScroller.ySpeed = a.y * 0.008f;
     }
 
     void TryShootProjectile()
@@ -130,7 +209,7 @@ public class SpaceshipPhysScript : MonoBehaviour
 
     void ShootProjectile()
     {
-        audioSource.Play();
+        audioSource.PlayOneShot(laserShootClip);
         //Create left bullet
         moverScript.AddBullet(Instantiate(bulletPrefab, leftGun.position, leftGun.rotation));
         moverScript.AddBullet(Instantiate(bulletPrefab, rightGun.position, rightGun.rotation));
@@ -150,8 +229,12 @@ public class SpaceshipPhysScript : MonoBehaviour
         for (;;)
         {
             spRenderer.enabled = false;
+            leftParticle.gameObject.GetComponent<ParticleSystemRenderer>().enabled = false;
+            rightParticle.gameObject.GetComponent<ParticleSystemRenderer>().enabled = false;
             yield return new WaitForSeconds(0.25f);
             spRenderer.enabled = true;
+            leftParticle.gameObject.GetComponent<ParticleSystemRenderer>().enabled = true;
+            rightParticle.gameObject.GetComponent<ParticleSystemRenderer>().enabled = true;
             yield return new WaitForSeconds(0.25f);
             if (!isNoHarm)
             { break; }

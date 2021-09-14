@@ -20,5 +20,5 @@ MonoBehaviour:
     type: 3}
   particleEffect: {fileID: 3953302725377390000, guid: 52b8968fb9d7372428bbf1e648aeb127,
     type: 3}
-  particleEffect1: {fileID: 4780586398944144136, guid: 3e87823fb4cf33640975a4f036e7c6a0,
+  particleEffect1: {fileID: 4782231969972637707, guid: 1cf49198ca8226b4ebf8124a86b52c31,
     type: 3}
