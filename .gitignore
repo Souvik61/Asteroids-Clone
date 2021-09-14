@@ -4,6 +4,7 @@
 [Bb]uild/
 [Bb]uilds/
 [Oo]utput-web
+[Oo]utput
 Assets/AssetStoreTools*
 
 # Visual Studio cache directory
